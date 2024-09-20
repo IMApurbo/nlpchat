@@ -1,92 +1,80 @@
-import random
-import pickle
 from sentence_transformers import SentenceTransformer
+import numpy as np
 from sklearn.preprocessing import LabelEncoder
-from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+import pickle
 
 class NlpChat:
     def __init__(self):
-        self.intent_data = {"intents": []}
-        self.responses = {}
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
-        self.label_encoder = LabelEncoder()
         self.classifier = LogisticRegression()
+        self.label_encoder = LabelEncoder()
+        self.intents = []
 
     def add_intent(self, tag, patterns, responses):
-        """
-        Add intents easily by specifying a tag, patterns, and responses.
-        """
-        intent = {
-            "tag": tag,
-            "patterns": patterns,
-            "responses": responses
-        }
-        self.intent_data["intents"].append(intent)
+        self.intents.append({
+            'tag': tag,
+            'patterns': patterns,
+            'responses': responses
+        })
 
     def train(self):
-        """
-        Prepares training data and trains the Logistic Regression classifier.
-        """
-        patterns = []
+        sentences = []
         labels = []
 
-        for intent in self.intent_data['intents']:
-            self.responses[intent['tag']] = intent['responses']
+        for intent in self.intents:
             for pattern in intent['patterns']:
-                patterns.append(pattern)
+                sentences.append(pattern)
                 labels.append(intent['tag'])
 
-        # Encode labels and split data
-        self.encoded_labels = self.label_encoder.fit_transform(labels)
-        X_train, _, y_train, _ = train_test_split(patterns, self.encoded_labels, test_size=0.2, random_state=42)
+        # Encode the labels
+        encoded_labels = self.label_encoder.fit_transform(labels)
 
-        # Generate sentence embeddings
-        X_train_embeddings = self.model.encode(X_train)
+        # Convert sentences to embeddings
+        sentence_embeddings = self.model.encode(sentences)
 
-        # Train the classifier
-        self.classifier.fit(X_train_embeddings, y_train)
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(sentence_embeddings, encoded_labels, test_size=0.2, random_state=42)
 
-    def save_model(self, filepath):
-        """
-        Save the trained model and label encoder to a file.
-        """
-        model_data = {
-            "classifier": self.classifier,
-            "label_encoder": self.label_encoder,
-            "responses": self.responses
-        }
-        with open(filepath, 'wb') as f:
-            pickle.dump(model_data, f)
+        # Initialize and train a Logistic Regression classifier
+        self.classifier.fit(X_train, y_train)
 
-    def load_model(self, filepath):
-        """
-        Load a saved model and label encoder from a file.
-        """
-        with open(filepath, 'rb') as f:
-            model_data = pickle.load(f)
-            self.classifier = model_data['classifier']
-            self.label_encoder = model_data['label_encoder']
-            self.responses = model_data['responses']
+        # Test the classifier
+        y_pred = self.classifier.predict(X_test)
+        accuracy = (y_pred == y_test).mean()
+        print(f"Training completed. Test accuracy: {accuracy * 100:.2f}%")
 
-    def predict_intent(self, text):
-        """
-        Predicts the intent for the given user input.
-        """
-        text_embedding = self.model.encode([text])
-        predicted_label = self.classifier.predict(text_embedding)
-        intent = self.label_encoder.inverse_transform(predicted_label)[0]
-        return intent
+    def get_response(self, user_input):
+        # Encode the new sentence
+        embedding = self.model.encode([user_input])
+        
+        # Predict the intent
+        predicted_label = self.classifier.predict(embedding)
+        predicted_intent = self.label_encoder.inverse_transform(predicted_label)[0]
 
-    def get_response(self, text):
-        """
-        Returns a response for the given user input based on the predicted intent.
-        """
-        intent = self.predict_intent(text)
-        return random.choice(self.responses[intent])
+        # Find the corresponding response
+        for intent in self.intents:
+            if intent['tag'] == predicted_intent:
+                return np.random.choice(intent['responses'])
+
+
+    def get_intent(self, user_input):
+        # Encode the new sentence
+        embedding = self.model.encode([user_input])
+        
+        # Predict the intent
+        predicted_label = self.classifier.predict(embedding)
+        predicted_intent = self.label_encoder.inverse_transform(predicted_label)[0]
+        
+        return predicted_intent
+
+    def save_model(self, filename):
+        with open(filename, 'wb') as f:
+            pickle.dump((self.classifier, self.label_encoder), f)
+
+    def load_model(self, filename):
+        with open(filename, 'rb') as f:
+            self.classifier, self.label_encoder = pickle.load(f)
     
-    def get_intent(self, text):
-        """
-        Returns only the predicted intent for the given user input.
-        """
-        return self.predict_intent(text)
+
