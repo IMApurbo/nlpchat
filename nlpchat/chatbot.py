@@ -1,7 +1,4 @@
-# easy_chatbot/chatbot.py
-
 import random
-import os
 import pickle
 from sentence_transformers import SentenceTransformer
 from sklearn.preprocessing import LabelEncoder
@@ -53,8 +50,6 @@ class NlpChat:
     def save_model(self, filepath):
         """
         Save the trained model and label encoder to a file.
-        
-        :param filepath: The path to save the model and related files.
         """
         model_data = {
             "classifier": self.classifier,
@@ -67,8 +62,6 @@ class NlpChat:
     def load_model(self, filepath):
         """
         Load a saved model and label encoder from a file.
-        
-        :param filepath: The path to the saved model file.
         """
         with open(filepath, 'rb') as f:
             model_data = pickle.load(f)
@@ -91,4 +84,9 @@ class NlpChat:
         """
         intent = self.predict_intent(text)
         return random.choice(self.responses[intent])
-
+    
+    def get_intent(self, text):
+        """
+        Returns only the predicted intent for the given user input.
+        """
+        return self.predict_intent(text)
