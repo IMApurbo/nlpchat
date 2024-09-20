@@ -26,10 +26,10 @@ Here’s a simple example showing how to create a chatbot, train it, save the mo
 ### 1. Import and Initialize the Chatbot
 
 ```python
-from nlpchat import EasyChatbot
+from nlpchat import NlpChat
 
-# Create an instance of EasyChatbot
-chatbot = EasyChatbot()
+# Create an instance of NlpChat
+chatbot = NlpChat()
 ```
 
 ### 2. Add Intents
