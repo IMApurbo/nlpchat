@@ -1,12 +1,14 @@
-Here's the modified README for your `nlpchat` project, reflecting the changes in the code to use a Keras model instead of a Logistic Regression model:
+Here’s the updated **README** code with a hybrid approach using both Logistic Regression and Neural Networks:
 
-```markdown
+---
+
 # nlpchat
 
-**nlpchat** is a Python package that simplifies the creation of chatbots using natural language processing (NLP) for intent identification. The package uses Sentence Transformers for embedding input text and supports easy management of intents with customizable responses. It provides functionality for training, saving, and loading models, allowing you to avoid retraining the chatbot each time.
+**nlpchat** is a Python package that simplifies the creation of chatbots using natural language processing (NLP) for intent identification. The package uses Sentence Transformers for embedding input text and supports easy management of intents with customizable responses. It now supports a hybrid approach using both Logistic Regression and Neural Networks for enhanced performance in intent classification. It provides functionality for training, saving, and loading models, allowing you to avoid retraining the chatbot each time.
 
 ## Features
 - **Simple intent management**: Easily add intents, patterns, and responses.
+- **Hybrid Intent Recognition**: Uses both Logistic Regression and Neural Networks for better intent classification.
 - **NLP-powered**: Uses Sentence Transformers to embed and understand user inputs.
 - **Train and Save**: Train the model once and save it for later use.
 - **Load saved models**: Quickly load previously trained models for immediate use.
@@ -24,7 +26,7 @@ pip install nlpchat
 
 ## Usage
 
-Here’s a simple example showing how to create a chatbot, train it, save the model, and make predictions.
+Here’s a simple example showing how to create a chatbot, train it using a hybrid approach, save the model, and make predictions.
 
 ### 1. Import and Initialize the Chatbot
 
@@ -57,28 +59,28 @@ chatbot.add_intent(
 
 ### 3. Train the Model
 
-Train the chatbot on the added intents.
+Train the chatbot on the added intents. The hybrid model uses both Logistic Regression and Neural Networks for better intent prediction.
 
 ```python
 chatbot.train()
 ```
 
-### 4. Save the Model
+### 4. Save the Model and Intents
 
 Once the model is trained, you can save it to a file for future use.
 
 ```python
-# Save the trained model and label encoder
-chatbot.save_model("chatbot_model.h5", "label_encoder.pkl")
+# Save the trained model and intents to a file
+chatbot.save_model("chatbot_model.pkl")
 ```
 
-### 5. Load a Saved Model
+### 5. Load a Saved Model and Intents
 
 To avoid retraining every time, load the saved model.
 
 ```python
-# Load the saved model and label encoder
-chatbot.load_model("chatbot_model.h5", "label_encoder.pkl")
+# Load the saved model
+chatbot.load_model("chatbot_model.pkl")
 ```
 
 ### 6. Predict Intent and Get Response
@@ -104,12 +106,13 @@ print(f"Predicted intent: {intent}")  # Outputs: "greeting"
 
 ## How It Works
 - **Intent Management**: Users define intents using `add_intent()`. Each intent has a tag (such as "greeting"), a set of patterns (user inputs), and a set of responses.
-- **Training**: The chatbot uses the Sentence Transformer model to encode input patterns and trains a Keras neural network model to map patterns to intents.
-- **Prediction**: When user input is given, the chatbot encodes the input using the Sentence Transformer model, predicts the intent using the Keras model, and returns a random response from the associated intent (or just the intent if requested).
+- **Hybrid Approach**: The chatbot combines Logistic Regression and Neural Networks. Sentence Transformer embeddings are passed through Logistic Regression for initial classification and then fine-tuned by the Neural Network for intent prediction.
+- **Prediction**: When user input is given, the chatbot encodes the input using the Sentence Transformer model, predicts the intent using the hybrid model, and returns a random response from the associated intent (or just the intent if requested).
 
 ## Dependencies
 The following dependencies are required:
 - `sentence-transformers`
+- `scikit-learn`
 - `tensorflow`
 - `numpy`
 - `pickle-mixin`
@@ -122,11 +125,7 @@ Contributions are welcome! If you’d like to contribute to the project, please 
 
 ## Contact
 For any issues or suggestions, please open an issue on the [GitHub repository](https://github.com/IMApurbo/nlpchat).
-```
 
-### Key Updates:
-1. **Model Saving and Loading**: Updated to reference `.h5` files for saving the Keras model.
-2. **How It Works**: Changed the explanation to reflect the use of a Keras neural network model instead of Logistic Regression.
-3. **Dependencies**: Added `tensorflow` to the list of dependencies.
+---
 
-Feel free to further customize any sections or let me know if you need additional changes!
+This version reflects the hybrid approach for better performance using both Logistic Regression and Neural Networks. Let me know if any further adjustments are needed!
