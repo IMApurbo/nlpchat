@@ -1,3 +1,6 @@
+Here's the modified README for your `nlpchat` project, reflecting the changes in the code to use a Keras model instead of a Logistic Regression model:
+
+```markdown
 # nlpchat
 
 **nlpchat** is a Python package that simplifies the creation of chatbots using natural language processing (NLP) for intent identification. The package uses Sentence Transformers for embedding input text and supports easy management of intents with customizable responses. It provides functionality for training, saving, and loading models, allowing you to avoid retraining the chatbot each time.
@@ -65,8 +68,8 @@ chatbot.train()
 Once the model is trained, you can save it to a file for future use.
 
 ```python
-# Save the trained model to a file
-chatbot.save_model("chatbot_model.pkl")
+# Save the trained model and label encoder
+chatbot.save_model("chatbot_model.h5", "label_encoder.pkl")
 ```
 
 ### 5. Load a Saved Model
@@ -74,8 +77,8 @@ chatbot.save_model("chatbot_model.pkl")
 To avoid retraining every time, load the saved model.
 
 ```python
-# Load the saved model
-chatbot.load_model("chatbot_model.pkl")
+# Load the saved model and label encoder
+chatbot.load_model("chatbot_model.h5", "label_encoder.pkl")
 ```
 
 ### 6. Predict Intent and Get Response
@@ -101,13 +104,13 @@ print(f"Predicted intent: {intent}")  # Outputs: "greeting"
 
 ## How It Works
 - **Intent Management**: Users define intents using `add_intent()`. Each intent has a tag (such as "greeting"), a set of patterns (user inputs), and a set of responses.
-- **Training**: The chatbot uses the Sentence Transformer model to encode input patterns and trains a Logistic Regression model to map patterns to intents.
-- **Prediction**: When user input is given, the chatbot encodes the input using the Sentence Transformer model, predicts the intent using the Logistic Regression model, and returns a random response from the associated intent (or just the intent if requested).
+- **Training**: The chatbot uses the Sentence Transformer model to encode input patterns and trains a Keras neural network model to map patterns to intents.
+- **Prediction**: When user input is given, the chatbot encodes the input using the Sentence Transformer model, predicts the intent using the Keras model, and returns a random response from the associated intent (or just the intent if requested).
 
 ## Dependencies
 The following dependencies are required:
 - `sentence-transformers`
-- `scikit-learn`
+- `tensorflow`
 - `numpy`
 - `pickle-mixin`
 
@@ -122,7 +125,8 @@ For any issues or suggestions, please open an issue on the [GitHub repository](h
 ```
 
 ### Key Updates:
-- Added a section on "Predict Intent Only" to clarify how users can retrieve just the intent.
-- Made minor adjustments for clarity and flow.
+1. **Model Saving and Loading**: Updated to reference `.h5` files for saving the Keras model.
+2. **How It Works**: Changed the explanation to reflect the use of a Keras neural network model instead of Logistic Regression.
+3. **Dependencies**: Added `tensorflow` to the list of dependencies.
 
-Feel free to customize any sections, such as the contact link or author information! Let me know if you need any more changes.
+Feel free to further customize any sections or let me know if you need additional changes!
