@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='nlpchat',
-    version='1.1',
+    version='1.2',
     description='A package to simplify chatbot creation using NLP.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
@@ -12,6 +12,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'sentence-transformers',
+        'tensorflow',
         'scikit-learn',
         'numpy',
         'pickle-mixin',
