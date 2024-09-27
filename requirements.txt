@@ -1,4 +1,5 @@
 sentence-transformers
 scikit-learn
+tensorflow
 numpy
 pickle-mixin
