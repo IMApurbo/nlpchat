@@ -1,5 +1,3 @@
-Here's the entire content formatted in Markdown (`.md`) format for your **README.md** file:
-
 ```markdown
 # nlpchat
 
