@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='nlpchat',
-    version='1.2',
+    version='2.0',
     description='A package to simplify chatbot creation using NLP.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
