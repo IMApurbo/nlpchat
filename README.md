@@ -1,14 +1,11 @@
-Here’s the updated **README** code with a hybrid approach using both Logistic Regression and Neural Networks:
-
----
-
+```markdown
 # nlpchat
 
-**nlpchat** is a Python package that simplifies the creation of chatbots using natural language processing (NLP) for intent identification. The package uses Sentence Transformers for embedding input text and supports easy management of intents with customizable responses. It now supports a hybrid approach using both Logistic Regression and Neural Networks for enhanced performance in intent classification. It provides functionality for training, saving, and loading models, allowing you to avoid retraining the chatbot each time.
+**nlpchat** is a Python package that simplifies the creation of chatbots using natural language processing (NLP) for intent identification. The package uses Sentence Transformers for embedding input text and supports easy management of intents with customizable responses. It employs Logistic Regression for enhanced performance in intent classification. It provides functionality for training, saving, and loading models, allowing you to avoid retraining the chatbot each time.
 
 ## Features
 - **Simple intent management**: Easily add intents, patterns, and responses.
-- **Hybrid Intent Recognition**: Uses both Logistic Regression and Neural Networks for better intent classification.
+- **Logistic Regression for Intent Recognition**: Uses Logistic Regression for better intent classification.
 - **NLP-powered**: Uses Sentence Transformers to embed and understand user inputs.
 - **Train and Save**: Train the model once and save it for later use.
 - **Load saved models**: Quickly load previously trained models for immediate use.
@@ -24,9 +21,16 @@ You can install the package from the repository:
 pip install nlpchat
 ```
 
+### Dependencies
+Make sure to install the following packages:
+
+```bash
+pip install sentence-transformers scikit-learn numpy pickle-mixin
+```
+
 ## Usage
 
-Here’s a simple example showing how to create a chatbot, train it using a hybrid approach, save the model, and make predictions.
+Here’s a simple example showing how to create a chatbot, train it using Logistic Regression, save the model, and make predictions.
 
 ### 1. Import and Initialize the Chatbot
 
@@ -39,13 +43,15 @@ chatbot = NlpChat()
 
 ### 2. Add Intents
 
-You can add intents using the `add_intent()` function by providing a tag (intent name), patterns (user inputs), and responses.
+You can add intents using the `add_intent()` function in two ways:
+
+#### Method 1: Detailed Syntax
 
 ```python
 # Add a greeting intent
 chatbot.add_intent(
     tag="greeting",
-    patterns=["Hi", "Hello", "Good morning", "How are you?"],
+    patterns=["Hi", "Hello", "Good morning"],
     responses=["Hello!", "Hi there!", "Good to see you!"]
 )
 
@@ -57,15 +63,23 @@ chatbot.add_intent(
 )
 ```
 
+#### Method 2: Concise Syntax
+
+```python
+# Add intents using concise syntax
+chatbot.add_intent("greeting", ["Hi", "Hello", "Good morning"], ["Hello!", "Hi there!", "Good to see you!"])
+chatbot.add_intent("goodbye", ["Bye", "See you later", "Goodbye"], ["Goodbye!", "See you later!", "Take care!"])
+```
+
 ### 3. Train the Model
 
-Train the chatbot on the added intents. The hybrid model uses both Logistic Regression and Neural Networks for better intent prediction.
+Train the chatbot on the added intents. The model uses Logistic Regression for intent prediction.
 
 ```python
 chatbot.train()
 ```
 
-### 4. Save the Model and Intents
+### 4. Save the Model
 
 Once the model is trained, you can save it to a file for future use.
 
@@ -74,7 +88,7 @@ Once the model is trained, you can save it to a file for future use.
 chatbot.save_model("chatbot_model.pkl")
 ```
 
-### 5. Load a Saved Model and Intents
+### 5. Load a Saved Model
 
 To avoid retraining every time, load the saved model.
 
@@ -106,16 +120,8 @@ print(f"Predicted intent: {intent}")  # Outputs: "greeting"
 
 ## How It Works
 - **Intent Management**: Users define intents using `add_intent()`. Each intent has a tag (such as "greeting"), a set of patterns (user inputs), and a set of responses.
-- **Hybrid Approach**: The chatbot combines Logistic Regression and Neural Networks. Sentence Transformer embeddings are passed through Logistic Regression for initial classification and then fine-tuned by the Neural Network for intent prediction.
-- **Prediction**: When user input is given, the chatbot encodes the input using the Sentence Transformer model, predicts the intent using the hybrid model, and returns a random response from the associated intent (or just the intent if requested).
-
-## Dependencies
-The following dependencies are required:
-- `sentence-transformers`
-- `scikit-learn`
-- `tensorflow`
-- `numpy`
-- `pickle-mixin`
+- **Logistic Regression**: The chatbot uses Logistic Regression for intent prediction based on the Sentence Transformer embeddings of user inputs.
+- **Prediction**: When user input is given, the chatbot encodes the input using the Sentence Transformer model, predicts the intent using Logistic Regression, and returns a random response from the associated intent (or just the intent if requested).
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -125,7 +131,4 @@ Contributions are welcome! If you’d like to contribute to the project, please 
 
 ## Contact
 For any issues or suggestions, please open an issue on the [GitHub repository](https://github.com/IMApurbo/nlpchat).
-
----
-
-This version reflects the hybrid approach for better performance using both Logistic Regression and Neural Networks. Let me know if any further adjustments are needed!
+```
