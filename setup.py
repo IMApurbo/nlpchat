@@ -12,7 +12,6 @@ setup(
     packages=find_packages(),
     install_requires=[
         'sentence-transformers',
-        'tensorflow',
         'scikit-learn',
         'numpy',
         'pickle-mixin',
