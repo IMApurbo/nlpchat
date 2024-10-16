@@ -1,3 +1,5 @@
+Here's the entire content formatted in Markdown (`.md`) format for your **README.md** file:
+
 ```markdown
 # nlpchat
 
@@ -12,6 +14,7 @@
 - **Intent prediction**: Predicts the user's intent based on input text.
 - **Custom responses**: Generate responses based on detected intents.
 - **Intent-only prediction**: Retrieve just the predicted intent without generating a response.
+```
 
 ## Installation
 
@@ -131,4 +134,3 @@ Contributions are welcome! If you’d like to contribute to the project, please 
 
 ## Contact
 For any issues or suggestions, please open an issue on the [GitHub repository](https://github.com/IMApurbo/nlpchat).
-```
