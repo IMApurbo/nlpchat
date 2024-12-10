@@ -1,4 +1,4 @@
-```markdown
+
 # nlpchat
 
 **nlpchat** is a Python package that simplifies the creation of chatbots using natural language processing (NLP) for intent identification. The package uses Sentence Transformers for embedding input text and supports easy management of intents with customizable responses. It employs Logistic Regression for enhanced performance in intent classification. It provides functionality for training, saving, and loading models, allowing you to avoid retraining the chatbot each time.
@@ -12,7 +12,7 @@
 - **Intent prediction**: Predicts the user's intent based on input text.
 - **Custom responses**: Generate responses based on detected intents.
 - **Intent-only prediction**: Retrieve just the predicted intent without generating a response.
-```
+
 
 ## Installation
 
